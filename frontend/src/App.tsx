@@ -2,7 +2,6 @@ import "./App.css";
 import AddProperty from "./components/components/AddProperty";
 import PageHeader from "./components/components/PageHeader";
 import PropertiesTable from "./components/components/PropertiesTable";
-import { Button } from "./components/ui/button";
 
 function App() {
   return (

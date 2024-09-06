@@ -8,7 +8,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import axios from "axios";
-import { copyFileSync } from "fs";
 import { useEffect, useState } from "react";
 
 type Property = {

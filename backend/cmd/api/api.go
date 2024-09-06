@@ -28,13 +28,9 @@ func (s *APIServer) Run() error {
 	propertiesHandler := properties.NewHandler(propertyRepository)
 	propertiesHandler.RegisterRoutes(router)
 
-	corsHandler := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:5173"}, // Change this to your frontend URL
-		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
-		AllowedHeaders: []string{"Content-Type", "Authorization"},
-	})
+	cors.Default()
 
-	handlerWithCors := corsHandler.Handler(router)
+	handlerWithCors := cors.Default().Handler(router)
 
 	log.Println("Listening on", s.addr)
 
