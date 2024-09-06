@@ -74,7 +74,7 @@ func (h *Handler) handleCreateProperty(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handler) handleDeleteProperty(w http.ResponseWriter, r *http.Request) {
 	if r.Body == nil {
-		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("Missing body request"))
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("missing body request"))
 		return
 	}
 

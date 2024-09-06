@@ -7,6 +7,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/mik-dmi/service/properties"
+	"github.com/rs/cors"
 )
 
 type APIServer struct {
@@ -26,7 +27,16 @@ func (s *APIServer) Run() error {
 	propertyRepository := properties.NewRepository(s.db)
 	propertiesHandler := properties.NewHandler(propertyRepository)
 	propertiesHandler.RegisterRoutes(router)
+
+	corsHandler := cors.New(cors.Options{
+		AllowedOrigins: []string{"http://localhost:5173"}, // Change this to your frontend URL
+		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
+		AllowedHeaders: []string{"Content-Type", "Authorization"},
+	})
+
+	handlerWithCors := corsHandler.Handler(router)
+
 	log.Println("Listening on", s.addr)
 
-	return http.ListenAndServe(s.addr, router)
+	return http.ListenAndServe(s.addr, handlerWithCors)
 }
