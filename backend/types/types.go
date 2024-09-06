@@ -5,6 +5,10 @@ type Properties struct {
 	Units []string `json:"units"`
 }
 
+type DeletePropertyPayload struct {
+	Name string `json:"name"`
+}
+
 type PropertiesRepository interface {
 	GetPropertyByName(name string) (*Properties, error)
 	CreateProperty(property Properties) error

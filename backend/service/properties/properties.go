@@ -71,7 +71,11 @@ func (s *Repository) GetAllProperties() ([]*types.Properties, error) {
 
 	return properties, nil
 }
-func (s *Repository) DeleteProperty(name string) error {
+func (s *Repository) DeleteProperty(property string) error {
+	_, err := s.db.Exec("DELETE FROM properties WHERE name = $1", property)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 func (s *Repository) GetPropertiesByNumberOfBedrooms(numberBedrooms string) error {

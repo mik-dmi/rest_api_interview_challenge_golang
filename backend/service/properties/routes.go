@@ -23,6 +23,7 @@ func (h *Handler) RegisterRoutes(router *mux.Router) {
 	router.HandleFunc("/properties", h.handleCreateProperty).Methods("POST")
 	router.HandleFunc("/properties/{propertyID}", h.handleGetProperty).Methods("GET")
 	router.HandleFunc("/properties", h.handleGetAllProperties).Methods("GET")
+	router.HandleFunc("/properties", h.handleDeleteProperty).Methods("DELETE")
 }
 func (h *Handler) handleGetAllProperties(w http.ResponseWriter, r *http.Request) {
 	properties, err := h.repository.GetAllProperties()
@@ -64,6 +65,36 @@ func (h *Handler) handleCreateProperty(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err = h.repository.CreateProperty(newProperty)
+	if err != nil {
+		utils.WriteError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+}
+
+func (h *Handler) handleDeleteProperty(w http.ResponseWriter, r *http.Request) {
+	if r.Body == nil {
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("Missing body request"))
+		return
+	}
+
+	var deleteProperty types.DeletePropertyPayload
+	err := json.NewDecoder(r.Body).Decode(&deleteProperty)
+	//log.Println(newProperty)
+	if err != nil {
+		log.Println("error decoding the body from the request")
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid request body"))
+
+		return
+	}
+
+	_, err = h.repository.GetPropertyByName(deleteProperty.Name)
+	if err != nil {
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("property with the name %s does not exists", deleteProperty.Name))
+		return
+	}
+
+	err = h.repository.DeleteProperty(deleteProperty.Name)
 	if err != nil {
 		utils.WriteError(w, http.StatusInternalServerError, err)
 		return
