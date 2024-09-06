@@ -1,14 +1,14 @@
 package types
 
 type Properties struct {
-	Name string   `json:"name"`
-	Unit []string `json:"unit"`
+	Name  string   `json:"name"`
+	Units []string `json:"unit"`
 }
 
 type PropertiesRepository interface {
-	GetPropertyByNamme(name string) (*Properties, error)
-	CreateProperty(name string, units []string) error
-	GetAllProperties() error
+	GetPropertyByName(name string) (*Properties, error)
+	CreateProperty(property Properties) error
+	GetAllProperties() ([]Properties, error)
 	DeleteProperty(name string) error
 	GetPropertiesByNumberOfBedrooms(numberBedrooms string) error
 }

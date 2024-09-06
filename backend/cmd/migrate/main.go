@@ -14,9 +14,9 @@ import (
 )
 
 func main() {
-	connStr := fmt.Sprintf("user=%s password=%s host=%s dbname=%s  port=%s",
-		configs.Envs.DBUSER, configs.Envs.DBPASSWORD, configs.Envs.DBHOST, configs.Envs.DBNAME, configs.Envs.DBPORT)
-
+	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s ",
+		configs.Envs.DBHOST, configs.Envs.DBPORT, configs.Envs.DBUSER, configs.Envs.DBPASSWORD, configs.Envs.DBNAME)
+	fmt.Println(connStr)
 	db, err := db.NewPostgresStorage(connStr)
 	if err != nil {
 		log.Fatal(err)
