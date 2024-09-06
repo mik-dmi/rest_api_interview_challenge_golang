@@ -8,7 +8,7 @@ type Properties struct {
 type PropertiesRepository interface {
 	GetPropertyByName(name string) (*Properties, error)
 	CreateProperty(property Properties) error
-	GetAllProperties() ([]Properties, error)
+	GetAllProperties() ([]*Properties, error)
 	DeleteProperty(name string) error
 	GetPropertiesByNumberOfBedrooms(numberBedrooms string) error
 }

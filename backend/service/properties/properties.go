@@ -49,25 +49,27 @@ func (s *Repository) CreateProperty(property types.Properties) error {
 	}
 	return nil
 }
-func (s *Repository) GetAllProperties() ([]types.Properties, error) {
+func (s *Repository) GetAllProperties() ([]*types.Properties, error) {
 	rows, err := s.db.Query("Select * From properties")
 	if err != nil {
 		return nil, err
 	}
-	property := new(types.Properties)
+
+	properties := make([]*types.Properties, 0)
 	for rows.Next() {
-		err = rows.Scan(
+		property := new(types.Properties)
+		err := rows.Scan(
 			&property.Name,
-			pq.Array(&property.Units),
+			pq.Array(&property.Units), // Handle array with pq.Array
 		)
 		if err != nil {
 			return nil, err
 		}
-		if property.Name == "" {
-			return nil, fmt.Errorf("user not found")
-		}
+
+		properties = append(properties, property)
 	}
-	return nil, nil
+
+	return properties, nil
 }
 func (s *Repository) DeleteProperty(name string) error {
 	return nil

@@ -25,12 +25,12 @@ func (h *Handler) RegisterRoutes(router *mux.Router) {
 	router.HandleFunc("/properties", h.handleGetAllProperties).Methods("GET")
 }
 func (h *Handler) handleGetAllProperties(w http.ResponseWriter, r *http.Request) {
-	_, err := h.repository.GetAllProperties()
+	properties, err := h.repository.GetAllProperties()
 	if err != nil {
-		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("property with the name %s does not exists"))
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf(""))
 		return
 	}
-	utils.WriteJSON(w, http.StatusOK, nil)
+	utils.WriteJSON(w, http.StatusOK, properties)
 }
 func (h *Handler) handleGetProperty(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
