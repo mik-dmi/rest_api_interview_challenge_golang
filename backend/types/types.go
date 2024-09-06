@@ -2,7 +2,7 @@ package types
 
 type Properties struct {
 	Name  string   `json:"name"`
-	Units []string `json:"unit"`
+	Units []string `json:"units"`
 }
 
 type PropertiesRepository interface {

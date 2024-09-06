@@ -38,6 +38,11 @@ func (s *Repository) GetPropertyByName(name string) (*types.Properties, error) {
 }
 
 func (s *Repository) CreateProperty(property types.Properties) error {
+	/*log.Printf("Inserting property: Name = %s, Units = %v\n", property.Name, property.Units)
+	if len(property.Units) == 0 {
+		return fmt.Errorf("units array is empty or nil")
+	}*/
+
 	_, err := s.db.Exec("INSERT INTO properties (name, units) VALUES($1, $2)", property.Name, pq.Array(property.Units))
 	if err != nil {
 		return err
