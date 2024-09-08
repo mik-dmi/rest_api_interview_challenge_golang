@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import AddProperty from "./AddProperty";
+import { Button } from "../ui/button";
 
 type Property = {
   name: string;
@@ -20,6 +21,20 @@ export default function PropertiesTable() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [refreshTable, setRefreshTable] = useState<boolean>(false);
 
+  const deleteProperty = async (propertyName: string) => {
+    try {
+      await axios({
+        method: "DELETE",
+        url: "http://localhost:8080/properties",
+        data: {
+          name: propertyName,
+        },
+      });
+      setRefreshTable(() => true);
+    } catch (error) {
+      console.error("Error deleting property:", error);
+    }
+  };
   useEffect(() => {
     async function fetchProperties() {
       try {
@@ -58,6 +73,14 @@ export default function PropertiesTable() {
               </TableCell>
               <TableCell className="border-gray-400">
                 {property.units.join(", ")}
+              </TableCell>
+              <TableCell className="border-gray-400">
+                <Button
+                  className="bg-[#E3191C] p-3 hover:bg-[#E3191C]/90"
+                  onClick={() => deleteProperty(property.name)}
+                >
+                  X
+                </Button>
               </TableCell>
             </TableRow>
           ))}
