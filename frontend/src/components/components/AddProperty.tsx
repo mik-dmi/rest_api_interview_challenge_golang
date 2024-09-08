@@ -5,7 +5,11 @@ import { useState } from "react";
 import axios from "axios";
 import { PropertySchema, PropertyType } from "@/lib/schema";
 
-export default function AddProperty() {
+export default function AddProperty({
+  setRefreshTable,
+}: {
+  setRefreshTable: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const [error, setError] = useState<string | null>(null);
 
   const {
@@ -36,6 +40,7 @@ export default function AddProperty() {
       if (invalidUnits.length > 0) {
         throw new Error("Invalid units: " + invalidUnits.join(", "));
       }
+      setRefreshTable(() => true);
     } catch (error) {
       setError('Invalid format for units. Example: ["bedroom", "bathroom"]');
       return;

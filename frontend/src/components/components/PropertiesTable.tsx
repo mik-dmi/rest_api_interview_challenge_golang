@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/table";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import AddProperty from "./AddProperty";
 
 type Property = {
   name: string;
@@ -17,6 +18,7 @@ type Property = {
 
 export default function PropertiesTable() {
   const [properties, setProperties] = useState<Property[]>([]);
+  const [refreshTable, setRefreshTable] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchProperties() {
@@ -30,11 +32,14 @@ export default function PropertiesTable() {
         console.error("Error fetching properties:", error);
       }
     }
-
     fetchProperties();
-  }, []);
+    if (refreshTable) {
+      setRefreshTable(false);
+    }
+  }, [refreshTable]);
   return (
-    <div className=" flex justify-center align-middle items-center border-black">
+    <div className=" flex  flex-col justify-center align-middle items-center border-black">
+      <AddProperty setRefreshTable={setRefreshTable} />
       <Table className="w-[40rem] border border-gray-400 border-collapse">
         <TableCaption>A list of the Properties.</TableCaption>
         <TableHeader>
