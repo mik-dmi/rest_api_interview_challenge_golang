@@ -16,3 +16,8 @@ type PropertiesRepository interface {
 	DeleteProperty(name string) error
 	GetPropertiesByNumberOfBedrooms(numberBedrooms string) error
 }
+
+type MockProperties struct {
+	Name  string   `json:"name"`
+	Units []string `json:"units"`
+}

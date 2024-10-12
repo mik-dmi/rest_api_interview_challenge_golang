@@ -49,17 +49,16 @@ func (h *Handler) handleCreateProperty(w http.ResponseWriter, r *http.Request) {
 		log.Panic("missing request body")
 		return
 	}
-
 	var newProperty types.Properties
 	err := json.NewDecoder(r.Body).Decode(&newProperty)
-	//log.Println(newProperty)
+
 	if err != nil {
-		log.Println("error decoding the body from the request")
+		utils.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
 
 	_, err = h.repository.GetPropertyByName(newProperty.Name)
-	if err != nil {
+	if err == nil {
 		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("property with the name %s already exists", newProperty.Name))
 		return
 	}
@@ -69,6 +68,7 @@ func (h *Handler) handleCreateProperty(w http.ResponseWriter, r *http.Request) {
 		utils.WriteError(w, http.StatusInternalServerError, err)
 		return
 	}
+	utils.WriteJSON(w, http.StatusCreated, newProperty)
 
 }
 

@@ -18,8 +18,13 @@ func NewRepository(db *sql.DB) *Repository {
 
 func (s *Repository) GetPropertyByName(name string) (*types.Properties, error) {
 	rows, err := s.db.Query("Select * From properties WHERE name=$1", name)
+
 	if err != nil {
 		return nil, err
+	}
+	defer rows.Close()
+	if !rows.Next() {
+		return nil, fmt.Errorf("name of property not found")
 	}
 	property := new(types.Properties)
 	for rows.Next() {
@@ -38,11 +43,6 @@ func (s *Repository) GetPropertyByName(name string) (*types.Properties, error) {
 }
 
 func (s *Repository) CreateProperty(property types.Properties) error {
-	/*log.Printf("Inserting property: Name = %s, Units = %v\n", property.Name, property.Units)
-	if len(property.Units) == 0 {
-		return fmt.Errorf("units array is empty or nil")
-	}*/
-
 	_, err := s.db.Exec("INSERT INTO properties (name, units) VALUES($1, $2)", property.Name, pq.Array(property.Units))
 	if err != nil {
 		return err

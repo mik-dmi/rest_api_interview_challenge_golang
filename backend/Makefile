@@ -13,3 +13,6 @@ migrate-up:
 
 migrate-down:
 	@go run cmd/migrate/main.go down 
+
+test:
+	@go test -v ./...
