@@ -99,5 +99,5 @@ func (h *Handler) handleDeleteProperty(w http.ResponseWriter, r *http.Request) {
 		utils.WriteError(w, http.StatusInternalServerError, err)
 		return
 	}
-
+	utils.WriteJSON(w, http.StatusOK, fmt.Sprintf("property with the name %s was deleted", deleteProperty.Name))
 }
