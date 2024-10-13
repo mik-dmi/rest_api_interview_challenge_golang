@@ -1,17 +1,17 @@
-# Project Full Stack
+# Full Stack Project (Golang, React, Postgres, and Docker API Coding Challenge)
 
-Run the backend project:
-Need a .env with these for setting up a local postgres DB:
+To run this project on your computer, follow these steps:
 
-DBUSER=
-DBHOST=
-DBPASSWORD=
-DBPORT=
-DBNAME=
-PORT = 8080
+1- Clone the repository to your local machine.
 
----> Run the backend with this command:
-make run
+2- Create a .env file in the root directory of the project and set the following variables:
 
---> Run the frontend project (install dependencies and then run):
-npm run dev
+DBUSER=your_database_user
+DBHOST=postgresdb
+DBPASSWORD=your_database_password
+DBPORT=5432
+DBNAME=your_database_name
+
+3- After setting up the .env file, build and run the project using Docker with the following command:
+
+docker-compose up --build
